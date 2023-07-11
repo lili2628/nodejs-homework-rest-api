@@ -72,10 +72,45 @@ const logout = async (req, res) => {
     res.status(204);
 }
 
+const updateUserSubscription = async (req, res) => {
+    const { _id } = req.user;
+    const { subscription } = req.body;
+
+    if (!subscription) {
+        return res.status(400).json({ message: `Missing fields subscription` });
+    }
+
+    const updatedUser = async (_id, subscription) => {
+        const subscriptionList = ['starter', 'pro', 'business'];
+
+        if (!subscriptionList.includes(subscription)) {
+            return null;
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(_id,
+            {
+            $set: { subscription },
+            },
+            { new: true, select: '_id email subscription' }
+        );
+
+        return updatedUser;
+        };
+
+    updatedUser(_id, subscription);
+
+    if (!updatedUser) {
+        return res.status(400).json({ message: `Subscription is wrong` });
+    }
+
+    res.status(200).json(updatedUser);
+};
+
 
 module.exports = {
     register: ctrlWrapper(register),
     login: ctrlWrapper(login),
     getCurrent: ctrlWrapper(getCurrent),
     logout: ctrlWrapper(logout),
+    updateUserSubscription: ctrlWrapper(updateUserSubscription),
 }
