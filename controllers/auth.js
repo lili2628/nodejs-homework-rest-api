@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { User } = require('../models/user');
+const  User = require('../models/user');
 const { ctrlWrapper, HttpError } = require('../helpers');
 
 const { SECRET_KEY } = process.env;
@@ -80,24 +80,18 @@ const updateUserSubscription = async (req, res) => {
         return res.status(400).json({ message: `Missing fields subscription` });
     }
 
-    const updatedUser = async (_id, subscription) => {
-        const subscriptionList = ['starter', 'pro', 'business'];
+    const subscriptionList = ['starter', 'pro', 'business'];
 
-        if (!subscriptionList.includes(subscription)) {
-            return null;
-        }
+    if (!subscriptionList.includes(subscription)) {
+        return null;
+    }
 
-        const updatedUser = await User.findByIdAndUpdate(_id,
-            {
-            $set: { subscription },
-            },
-            { new: true, select: '_id email subscription' }
-        );
-
-        return updatedUser;
-        };
-
-    updatedUser(_id, subscription);
+    const updatedUser = await User.findByIdAndUpdate(_id,
+        {
+        $set: { subscription },
+        },
+        { new: true, select: '_id email subscription' }
+    );
 
     if (!updatedUser) {
         return res.status(400).json({ message: `Subscription is wrong` });
