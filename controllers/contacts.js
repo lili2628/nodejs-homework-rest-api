@@ -8,10 +8,10 @@ const listContacts = async (req, res) => {
     let result = {}; 
    
     if (!favorite) {
-        result = await Contact.find({owner}, {skip, limit}).populate("owner", "email subscription");
+        result = await Contact.find({owner}, "", {skip, limit}).populate("owner", "email subscription");
+    } else {
+      result = await Contact.find({ owner, favorite }, "", { skip, limit, favorite }).populate("owner", "email subscription");
     };
-  
-    result = await Contact.find({owner, favorite}, {skip, limit}).populate("owner", "email subscription");
   
     res.status(200).json(result);
 }
