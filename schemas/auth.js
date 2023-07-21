@@ -14,8 +14,14 @@ const loginSchema = Joi.object({
   email: Joi.string().min(4).max(255).required().pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/),
 });
 
+const emailSchema = Joi.object({
+  // eslint-disable-next-line
+  email: Joi.string().min(4).max(255).required().pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/),
+});
+
 
 module.exports = {
-    registerSchema,
-    loginSchema,
+  registerSchema,
+  loginSchema,
+  emailSchema,
 }
