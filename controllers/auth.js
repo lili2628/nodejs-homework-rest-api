@@ -26,7 +26,7 @@ const register = async (req, res) => {
     const newUser = await User.create({ ...req.body, password: hashPassword, avatarURL, verificationToken });
     const verifyEmail = {
         to: email, subject: 'Verify email',
-        html: `<a target="blank" href="${BASE_URL}/api/auth/verify/${verificationToken}">Click to verify email</a>`
+        html: `<a target="blank" href="${BASE_URL}/api/users/verify/${verificationToken}">Click to verify email</a>`
     };
 
     await sendEmail(verifyEmail);
@@ -71,7 +71,7 @@ const resendVerifyEmail = async (req, res) => {
 
     const verifyEmail = {
         to: email, subject: 'Verify email',
-        html: `<a target="blank" href="${BASE_URL}/api/auth/verify/${user.verificationToken}">Click to verify email</a>`
+        html: `<a target="blank" href="${BASE_URL}/api/users/verify/${user.verificationToken}">Click to verify email</a>`
     };
   
     await sendEmail(verifyEmail);
