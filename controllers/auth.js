@@ -67,6 +67,8 @@ const resendVerifyEmail = async (req, res) => {
         throw HttpError(400, 'Verification has already been passed');
     };
 
+    console.log(user.verificationToken);
+
     const verifyEmail = {
         to: email, subject: 'Verify email',
         html: `<a target="blank" href="${BASE_URL}/api/auth/verify/${user.verificationToken}">Click to verify email</a>`
